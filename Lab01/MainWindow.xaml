@@ -8,25 +8,32 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="128*"/>
+            <ColumnDefinition Width="70*"/>
+            <ColumnDefinition Width="137*"/>
+            <ColumnDefinition Width="61*"/>
         </Grid.ColumnDefinitions>
-        <ListBox Margin="20" ItemsSource="{Binding Items}">
+        <ListBox Margin="20" ItemsSource="{Binding Items}" Grid.ColumnSpan="2">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding Path=Name}" Width="100"/>
                         <TextBlock Text="{Binding Path=Age}" Width="100"/>
+                        <Image Source="{Binding Path=Picture}"  Height="30"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Grid.Column="1" Margin="20" Orientation="Vertical">
+        <StackPanel Grid.Column="2" Margin="20" Orientation="Vertical" Grid.ColumnSpan="2">
+            <Button Name="AButton" Height="200" Click="OnImageButtonClick">
+                <Image x:Name="PictureBox"/>
+            </Button>
             <TextBlock TextWrapping="Wrap" Text="Name"/>
             <TextBox Name ="nameTextBox" Height="23" TextWrapping="Wrap" Text="Jarosław" Margin="0,0,0,10"/>
             <TextBlock TextWrapping="Wrap" Text="Age"/>
             <TextBox Name="ageTextBox" Height="23" TextWrapping="Wrap" Text="99"  Margin="0,0,0,10"/>
-            <Button Name = "addNewPersonButton" Content="Add new person" Click="AddNewPersonButton_Click"/>
+            <Button x:Name = "addNewPersonButton" Content="Add new person" Click="AddNewPersonButton_Click" RenderTransformOrigin="0.486,3.032" HorizontalAlignment="Left" Width="356"/>
+           <Button x:Name = "addTextButton" Content="Add text" Click="AddTextButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>
