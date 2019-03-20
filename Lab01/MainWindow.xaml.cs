@@ -45,7 +45,7 @@ namespace Lab01
         {
 
             InitializeComponent();
-          
+
             DataContext = this;
         }
 
@@ -66,7 +66,7 @@ namespace Lab01
         }
 
 
-       
+
 
         void OnImageButtonClick(object sender, RoutedEventArgs e)
         {
@@ -128,7 +128,7 @@ namespace Lab01
 
 
         }
-     
+
     }
 
 }

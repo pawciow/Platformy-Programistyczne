@@ -10,7 +10,7 @@ using System.Windows.Media.Imaging;
 namespace Lab01
 {
     public class GetRandomPerson
-   
+
     {
         public string name { get; set; }
         public int age { get; set; }

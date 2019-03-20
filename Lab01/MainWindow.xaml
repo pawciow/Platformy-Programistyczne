@@ -33,7 +33,7 @@
             <TextBlock TextWrapping="Wrap" Text="Age"/>
             <TextBox Name="ageTextBox" Height="23" TextWrapping="Wrap" Text="99"  Margin="0,0,0,10"/>
             <Button x:Name = "addNewPersonButton" Content="Add new person" Click="AddNewPersonButton_Click" RenderTransformOrigin="0.486,3.032" HorizontalAlignment="Left" Width="356"/>
-           <Button x:Name = "addTextButton" Content="Add text" Click="AddTextButton_Click"/>
+            <Button x:Name = "addTextButton" Content="Add text" Click="AddTextButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>
