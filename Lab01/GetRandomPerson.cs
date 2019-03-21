@@ -14,8 +14,8 @@ namespace Lab01
     {
         public string name { get; set; }
         public int age { get; set; }
-        public BitmapImage picture { get; set; }
-
+        public string photo { get; set; }
+     
     }
 
 }
