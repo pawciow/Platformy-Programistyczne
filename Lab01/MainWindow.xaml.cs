@@ -9,18 +9,25 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace Lab01
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>d
-    /// 
+ 
 
     public partial class MainWindow : Window
     {
         BitmapImage _Image = new BitmapImage { };
-
+       
         public const string imageName = "potato.jpg";
         public const string url = "https://uinames.com/api/?ext";
 
@@ -39,6 +46,7 @@ namespace Lab01
             get => people;
         }
 
+        public object ProgresChanged { get; private set; }
 
 
         public MainWindow()
@@ -55,8 +63,7 @@ namespace Lab01
             {
                 people.Add(new Person { Age = int.Parse(ageTextBox.Text), Name = nameTextBox.Text, Picture = _Image });
 
-                // ageTextBox.Text = string.Empty;
-                //  nameTextBox.Text = string.Empty;
+               
             }
             catch (System.FormatException)
             {
@@ -84,16 +91,42 @@ namespace Lab01
 
         }
 
-        private async void AddTextButton_Click(object sender, RoutedEventArgs e)
+        private void ReportProgress(object sender, int e)
         {
-            GetRandomPerson random = await GetApiAsync("https://uinames.com/api/?ext");
+            try
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    progressBar.Value = e;
+                });
+            }
+            catch { }
         }
 
-        async Task<GetRandomPerson> GetApiAsync(string path)
+        private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            GetRandomPerson random;
+
+        }
+        private async void AddTextButton_Click(object sender, RoutedEventArgs e)
+        {
+            Progress<int> progress = new Progress<int>();
+            progress.ProgressChanged += ReportProgress;
+            GetRandomPerson random = await GetApiAsync("https://uinames.com/api/?ext", progress);
+        }
+
+        private async Task<GetRandomPerson> GetApiAsync(string path, IProgress<int> progress)
+        {
+             int report = new int();
+            GetRandomPerson random = null;
+            int levelmax = 5;
+            int presentLevel = 0;
+            while(presentLevel<=5)
+            
             while (true)
             {
+                presentLevel++;
+                report = (presentLevel * 100) / levelmax;
+                progress.Report(report);
                 using (HttpClient client = new HttpClient())
                 {
 
@@ -124,11 +157,14 @@ namespace Lab01
 
             }
 
-          
+            return random;
 
 
         }
 
+
     }
+
+ 
 
 }

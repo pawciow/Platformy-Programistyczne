@@ -34,6 +34,8 @@
             <TextBox Name="ageTextBox" Height="23" TextWrapping="Wrap" Text="99"  Margin="0,0,0,10"/>
             <Button x:Name = "addNewPersonButton" Content="Add new person" Click="AddNewPersonButton_Click" RenderTransformOrigin="0.486,3.032" HorizontalAlignment="Left" Width="356"/>
             <Button x:Name = "addTextButton" Content="Add random person" Click="AddTextButton_Click"/>
+            <ProgressBar Height="10" Margin="10,5,9.8,5" Maximum="100" Minimum="0" x:Name ="progressBar" ValueChanged="ProgressBar_ValueChanged"/>
+
         </StackPanel>
     </Grid>
 </Window>
