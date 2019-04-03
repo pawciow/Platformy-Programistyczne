@@ -60,6 +60,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="APIWeather.cs" />
+    <Compile Include="Weather.cs" />
     <None Include="packages.config" />
     <None Include="README" />
     <Page Include="MainWindow.xaml">
