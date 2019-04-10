@@ -34,11 +34,11 @@ namespace Lab01
 
         ObservableCollection<Person> people = new ObservableCollection<Person>
         {
-         //  new Person { Name = "P1", Age = 1, Picture = new BitmapImage(new Uri("C:\\Users\\Pawel\\Desktop\\dotNet\\Lab01\\Properties\\lena.bmp"))}, // Zmien sobie na jakis swoj obraz u siebie:P
-          //  new Person { Name = "P2", Age = 2, Picture =  new BitmapImage(new Uri("C:\\Users\\Pawel\\Desktop\\dotNet\\Lab01\\Properties\\lena.bmp"))}
+           new Person { Name = "P1", Age = 1, Picture = new BitmapImage(new Uri("C:\\Users\\Pawel\\Desktop\\dotNet\\Lab01\\Properties\\lena.bmp"))}, // Zmien sobie na jakis swoj obraz u siebie:P
+           new Person { Name = "P2", Age = 2, Picture =  new BitmapImage(new Uri("C:\\Users\\Pawel\\Desktop\\dotNet\\Lab01\\Properties\\lena.bmp"))}
 
-           new Person { Name = "P1", Age = 1, Picture = new BitmapImage(new Uri("C:\\Users\\kamil\\source\\repos\\Platformy-Programistyczne\\potato.jpg"))},
-           new Person { Name = "P2", Age = 2, Picture =  new BitmapImage(new Uri("C:\\Users\\kamil\\source\\repos\\Platformy-Programistyczne\\potato.jpg"))}
+          // new Person { Name = "P1", Age = 1, Picture = new BitmapImage(new Uri("C:\\Users\\kamil\\source\\repos\\Platformy-Programistyczne\\potato.jpg"))},
+           //new Person { Name = "P2", Age = 2, Picture =  new BitmapImage(new Uri("C:\\Users\\kamil\\source\\repos\\Platformy-Programistyczne\\potato.jpg"))}
         };
 
         public ObservableCollection<Person> Items
@@ -163,6 +163,22 @@ namespace Lab01
         }
 
 
+        async private void WeatherButton_Click(object sender, RoutedEventArgs e)
+        {
+            string xml = await OpenWeatherContentGetter.getCityWeatherContentAsStringAsync(townTextBox.Text);
+            Weather result = new Weather();
+            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(xml)))
+            {
+                result = OpenWeatherContentGetter.Parse(stream);
+            }
+            string subjectiveOpinionAboutTheWeather;
+            if (result.Temperature < 20)
+                subjectiveOpinionAboutTheWeather = "Jest zimno! Brrr :(";
+            else
+                subjectiveOpinionAboutTheWeather = "Jest cieplutko! <3";
+            string weatherToShow = "Pogoda: " + result.Temperature + "*C " + result.City + "\n" + subjectiveOpinionAboutTheWeather;
+            MessageBox.Show(weatherToShow, townTextBox.Text);
+        }
     }
 
  

@@ -25,7 +25,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Grid.Column="2" Margin="20" Orientation="Vertical" Grid.ColumnSpan="2">
-            <Button Name="AButton" Height="200" Click="OnImageButtonClick">
+            <Button Name="AButton" Height="169" Click="OnImageButtonClick">
                 <Image x:Name="PictureBox"/>
             </Button>
             <TextBlock TextWrapping="Wrap" Text="Name"/>
@@ -35,7 +35,10 @@
             <Button x:Name = "addNewPersonButton" Content="Add new person" Click="AddNewPersonButton_Click" RenderTransformOrigin="0.486,3.032" HorizontalAlignment="Left" Width="356"/>
             <Button x:Name = "addTextButton" Content="Add random person" Click="AddTextButton_Click"/>
             <ProgressBar Height="10" Margin="10,5,9.8,5" Maximum="100" Minimum="0" x:Name ="progressBar" ValueChanged="ProgressBar_ValueChanged"/>
+            <Button Name="WeatherButton" Click="WeatherButton_Click" Height="23" Content="Show weather in the town"></Button>
+            <TextBox Name="townTextBox" Height="23" TextWrapping="Wrap" Text="Wroclaw"  Margin="0,0,0,10"/>
 
         </StackPanel>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
     </Grid>
 </Window>
