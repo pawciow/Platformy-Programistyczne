@@ -5,40 +5,68 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab01"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded_1">
+    <Window.Resources>
+        <CollectionViewSource x:Key="tableViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Table}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource tableViewSource}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="128*"/>
             <ColumnDefinition Width="70*"/>
             <ColumnDefinition Width="137*"/>
-            <ColumnDefinition Width="61*"/>
-        </Grid.ColumnDefinitions>
-        <ListBox Margin="20" ItemsSource="{Binding Items}" Grid.ColumnSpan="2">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Path=Name}" Width="100"/>
-                        <TextBlock Text="{Binding Path=Age}" Width="100"/>
-                        <Image Source="{Binding Path=Picture}"  Height="30"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel Grid.Column="2" Margin="20" Orientation="Vertical" Grid.ColumnSpan="2">
-            <Button Name="AButton" Height="169" Click="OnImageButtonClick">
-                <Image x:Name="PictureBox"/>
-            </Button>
-            <TextBlock TextWrapping="Wrap" Text="Name"/>
-            <TextBox Name ="nameTextBox" Height="23" TextWrapping="Wrap" Text="Jarosław" Margin="0,0,0,10"/>
-            <TextBlock TextWrapping="Wrap" Text="Age"/>
-            <TextBox Name="ageTextBox" Height="23" TextWrapping="Wrap" Text="99"  Margin="0,0,0,10"/>
-            <Button x:Name = "addNewPersonButton" Content="Add new person" Click="AddNewPersonButton_Click" RenderTransformOrigin="0.486,3.032" HorizontalAlignment="Left" Width="356"/>
-            <Button x:Name = "addTextButton" Content="Add random person" Click="AddTextButton_Click"/>
-            <ProgressBar Height="10" Margin="10,5,9.8,5" Maximum="100" Minimum="0" x:Name ="progressBar" ValueChanged="ProgressBar_ValueChanged"/>
-            <Button Name="WeatherButton" Click="WeatherButton_Click" Height="23" Content="Show weather in the town"></Button>
-            <TextBox Name="townTextBox" Height="23" TextWrapping="Wrap" Text="Wroclaw"  Margin="0,0,0,10"/>
 
-        </StackPanel>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="grid1" DataContext="{StaticResource tableViewSource}" HorizontalAlignment="Left" Margin="11,10,0,0" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Date of production:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <DatePicker x:Name="date_of_productionDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="0" SelectedDate="{Binding Date_of_production, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
+            <Label Content="Id:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+            <TextBox x:Name="idTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Title:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <TextBox x:Name="titleTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding Title, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+        </Grid>
+        <ListView x:Name="tableListView" ItemsSource="{Binding}" Margin="0,230,0,0" SelectionMode="Single" SelectionChanged="TableListView_SelectionChanged">
+            <ListView.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn x:Name="date_of_productionColumn" Header="Date of production" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <DatePicker Margin="6,-1,-6,-1" SelectedDate="{Binding Date_of_production, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="idColumn" Header="Id" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Margin="-6,-1" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="titleColumn" Header="Title" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Margin="-6,-1" Text="{Binding Title, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="button" Content="Add movie" HorizontalAlignment="Left" Margin="0,111,0,0" VerticalAlignment="Top" Width="246"/>
+        <Button x:Name="button1" Content="Generate random movie" Grid.Column="2" HorizontalAlignment="Left" Margin="0,231,0,0" VerticalAlignment="Top" Width="314" RenderTransformOrigin="-2.427,0.15" Click="AddRandomMovie_Click"/>
     </Grid>
 </Window>
