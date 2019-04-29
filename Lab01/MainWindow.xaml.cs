@@ -119,24 +119,21 @@ namespace Lab01
             context.SaveChanges();
         }
 
-        private void AddMovieToDatabase(object sender, RoutedEventArgs e)
+        async private void AddMovieToDatabase(object sender, RoutedEventArgs e)
         {
-            var newEntry = new Lab01.Table
+            var newEntry = new Movie
             {
-                Id = int.Parse(idTextBox2.Text),
-                Title = titleTextBox2.Text,
-                Date_of_production = date_of_productionDatePicker2,
+                Name = titleTextBox2.Text,
                 Rating = float.Parse(ratingTextBox2.Text),
             };
 
-            context.Table.Local.Add(newEntry);
+            await AddMovieToDatabase(newEntry);
             try
             {
                 context.SaveChanges();
             }
             catch (Exception ex)
             {
-                context.Table.Local.Remove(newEntry);
                 MessageBox.Show("Something went wrong...", ex.Message);
             }
         }

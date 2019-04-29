@@ -97,7 +97,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button Content="Add" HorizontalAlignment="Left" Margin="0,192,0,0" VerticalAlignment="Top" Width="246" Height="18" Click="AddMovieToDatabase"/>
+        <Button Content="Add" HorizontalAlignment="Right" Margin="0,215,-183,0" VerticalAlignment="Top" Width="246" Height="18" Click="AddMovieToDatabase" Grid.Column="3"/>
 
         <Grid Grid.Column="3" HorizontalAlignment="Left" Height="406" Margin="11,10,-192,0" VerticalAlignment="Top" Width="256"/>
         <Label VerticalAlignment="Center" Grid.Row="0" Margin="75,26,-37,343" HorizontalAlignment="Left" Grid.Column="3" Content="Id:" Height="37" Width="36"/>
