@@ -64,17 +64,16 @@ namespace Lab01
         Database1Entities context = new Database1Entities();
         async private void AddRandomMovie_Click(object sender, RoutedEventArgs e)
         {
-            GetRandomMovie random = await MovieConentGetter.GetApiAsync();
-            string toShow = "Title : " + random.original_title + "\n" + "Ratings: " + random.vote_average + " \n Overview:" + random.overview;
-            MessageBox.Show(toShow, "Random movie selected");
+            RootObject random = await MovieConentGetter.GetApiAsync();
+            foreach(Result result in random.results)
+            {
+                //string toShow = "Title : " + result.original_title + "\n" + "Ratings: " + result.vote_average + " \n Overview:" + result.overview;
+                //MessageBox.Show(toShow, "Random movie selected");
+                Movie movie = new Movie { Name = result.original_title, Rating = result.vote_average };
+                await AddMovieToDatabase(movie);
 
-            /*Dodawanko*/
-            Movie movie = new Movie { Name = random.original_title, Rating = random.vote_average };
+            }
 
-            await AddMovieToDatabase(movie);
-            PrintAllContentToConsole();
-
-            DeleteMovie(movie);
             PrintAllContentToConsole();
         }
 
@@ -88,12 +87,15 @@ namespace Lab01
             await context.SaveChangesAsync();
         }
 
+        private static int ID = 1;
         private async Task AddMovieToDatabase(Movie movie)
         {
             await Task.Delay(2000);
-            var toAdd = new Lab01.Table { Id = 2, Title = movie.Name, Date_of_production = movie.Date_of_production, Rating = movie.Rating };
+            var toAdd = new Lab01.Table { Id = ID, Title = movie.Name, Date_of_production = movie.Date_of_production, Rating = movie.Rating };
             context.Table.Add(toAdd);
             await context.SaveChangesAsync();
+            ID++;
+            tableViewSource.Source = context.Table.ToList();
         }
 
         async private void PrintAllContentToConsole()
