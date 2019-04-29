@@ -125,6 +125,7 @@ namespace Lab01
             {
                 Name = titleTextBox2.Text,
                 Rating = float.Parse(ratingTextBox2.Text),
+                Date_of_production = DateTime.Parse(date_of_productionDatePicker2.Text)
             };
 
             await AddMovieToDatabase(newEntry);
