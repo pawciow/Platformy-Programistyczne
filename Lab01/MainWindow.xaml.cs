@@ -25,6 +25,8 @@ using System.Data;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Core.Objects.DataClasses;
 using System.Data.Entity.Core;
+using System.Data.Entity;
+
 namespace Lab01
 {
  
@@ -113,7 +115,30 @@ namespace Lab01
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            
             context.SaveChanges();
+        }
+
+        private void AddMovieToDatabase(object sender, RoutedEventArgs e)
+        {
+            var newEntry = new Lab01.Table
+            {
+                Id = int.Parse(idTextBox2.Text),
+                Title = titleTextBox2.Text,
+                Date_of_production = date_of_productionDatePicker2,
+                Rating = float.Parse(ratingTextBox2.Text),
+            };
+
+            context.Table.Local.Add(newEntry);
+            try
+            {
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                context.Table.Local.Remove(newEntry);
+                MessageBox.Show("Something went wrong...", ex.Message);
+            }
         }
     }
 

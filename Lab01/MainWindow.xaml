@@ -9,11 +9,20 @@
     <Window.Resources>
         <CollectionViewSource x:Key="tableViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Table}, CreateList=True}"/>
     </Window.Resources>
-    <Grid DataContext="{StaticResource tableViewSource}">
+    <Grid DataContext="{StaticResource tableViewSource}" RenderTransformOrigin="0.55,0.378" Margin="0,11,203,2">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform Angle="0.13"/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Grid.RenderTransform>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="163*"/>
-            <ColumnDefinition Width="71*"/>
-            <ColumnDefinition Width="162*"/>
+            <ColumnDefinition Width="323*"/>
+            <ColumnDefinition Width="99*"/>
+            <ColumnDefinition Width="102*"/>
+            <ColumnDefinition Width="75*"/>
 
         </Grid.ColumnDefinitions>
         <Grid x:Name="grid1" DataContext="{StaticResource tableViewSource}" HorizontalAlignment="Left" Margin="11,10,0,0" VerticalAlignment="Top" Height="96" Width="245">
@@ -76,7 +85,28 @@
                 </GridView>
             </ListView.View>
         </ListView>
+
         <Button x:Name="button" Content="Add movie" HorizontalAlignment="Left" Margin="0,165,0,0" VerticalAlignment="Top" Width="246" Click="Button_Click" Height="22"/>
-        <Button x:Name="button1" Content="Generate random movie" Grid.Column="2" HorizontalAlignment="Left" Margin="0,231,0,0" VerticalAlignment="Top" Width="314" RenderTransformOrigin="-2.427,0.15" Click="AddRandomMovie_Click" Height="20"/>
+        <Button x:Name="button1" Content="Generate random movie" Grid.Column="2" HorizontalAlignment="Left" Margin="8,16,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="-2.427,0.15" Click="AddRandomMovie_Click" Height="24">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.079"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button Content="Add" HorizontalAlignment="Left" Margin="0,192,0,0" VerticalAlignment="Top" Width="246" Height="18" Click="AddMovieToDatabase"/>
+
+        <Grid Grid.Column="3" HorizontalAlignment="Left" Height="406" Margin="11,10,-192,0" VerticalAlignment="Top" Width="256"/>
+        <Label VerticalAlignment="Center" Grid.Row="0" Margin="75,26,-37,343" HorizontalAlignment="Left" Grid.Column="3" Content="Id:" Height="37" Width="36"/>
+        <TextBox x:Name="idTextBox2" VerticalAlignment="Center"  Grid.Row="0" Margin="147,26,-193,343" Height="37" Grid.Column="3"/>
+        <Label Content="Title:" Grid.Column="3" HorizontalAlignment="Left" Margin="80,68,-73,301" VerticalAlignment="Center" Height="37" Width="67" RenderTransformOrigin="15.678,-3.797"/>
+        <TextBox x:Name="titleTextBox2" Grid.Column="3" HorizontalAlignment="Left" Height="50" Margin="147,68,-193,288"  VerticalAlignment="Center" Width="120" RenderTransformOrigin="0.519,2.268"/>
+        <Label Content="Rating:" Grid.Column="3" HorizontalAlignment="Left" Margin="61,123,-73,254" VerticalAlignment="Center" Height="29" Width="86" RenderTransformOrigin="0.469,1.933"/>
+        <TextBox x:Name="ratingTextBox2" Grid.Column="3" HorizontalAlignment="Left" Height="21" Margin="147,123,-193,262"  VerticalAlignment="Center" Width="120"/>
+        <Label Content="Date of production:" Grid.Column="3" HorizontalAlignment="Left" Margin="34,169,-73,211" Grid.Row="0" VerticalAlignment="Center" Height="26" Width="113"/>
+        <DatePicker x:Name="date_of_productionDatePicker2" Grid.Column="3" HorizontalAlignment="Left" Margin="152,171,-180,211" Grid.Row="0"  VerticalAlignment="Center" Height="24" Width="102"/>
     </Grid>
 </Window>
