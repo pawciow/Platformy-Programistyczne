@@ -11,7 +11,7 @@ namespace Lab01
 {
     class MovieConentGetter
     {
-        static string apiCall = "https://api.themoviedb.org/3/movie/550?api_key=13f17cbb56c774d84fe5e497d58fa0dd&fbclid=IwAR3tUd-1wmoQ7p__sz10fltmmeLB-z2QfqVWgjm08jUBHSPexHX9zc7PT48";
+        static string apiCall = "https://api.themoviedb.org/3/discover/movie?certification_country=US&certification=R&sort_by=revenue.desc&with_cast=3896";
         public static async Task<GetRandomMovie> GetApiAsync()
         {
             GetRandomMovie random = null;

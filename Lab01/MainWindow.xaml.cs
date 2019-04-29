@@ -83,7 +83,7 @@ namespace Lab01
             var query = (from tmp in context.Table
                          where tmp.Title == movie.Name
                          select tmp).Single();
-            Console.WriteLine("ID: {0}, Title = {1}", query.Id, query.Title);
+            Console.WriteLine("ID: {0}, Title = {1}, Rating = {2}", query.Id, query.Title, query.Rating);
             context.Table.Remove(query);
             await context.SaveChangesAsync();
         }
@@ -91,7 +91,7 @@ namespace Lab01
         private async Task AddMovieToDatabase(Movie movie)
         {
             await Task.Delay(2000);
-            var toAdd = new Lab01.Table { Id = 2, Title = movie.Name, Date_of_production = movie.Date_of_production };
+            var toAdd = new Lab01.Table { Id = 2, Title = movie.Name, Date_of_production = movie.Date_of_production, Rating = movie.Rating };
             context.Table.Add(toAdd);
             await context.SaveChangesAsync();
         }
@@ -104,9 +104,14 @@ namespace Lab01
             var query = from tmp in context.Table select tmp;
             foreach (var a in query)
             {
-                Console.WriteLine("ID: {0}, Title = {1}", a.Id, a.Title);
+                Console.WriteLine("ID: {0}, Title = {1}, Rating = {2}", a.Id, a.Title, a.Rating);
             }
             Console.WriteLine(query);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            context.SaveChanges();
         }
     }
 

@@ -17,5 +17,6 @@ namespace Lab01
         public int Id { get; set; }
         public string Title { get; set; }
         public Nullable<System.DateTime> Date_of_production { get; set; }
+        public float Rating { get; set;  }
     }
 }
