@@ -5,13 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="ChartWindow" Height="450" Width="800">
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+       
+
+    Title="ChartWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto" MinHeight="33"></RowDefinition>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Your rates" HorizontalAlignment="Center" Width="Auto" Grid.Row="0" Margin="0,0,0,10"/>
+        <TextBlock HorizontalAlignment="Center" Width="60" Grid.Row="0" Margin="366,0,366,10"/>
         <lvc:CartesianChart Grid.Row="1" Series="{Binding SeriesCollection}" LegendLocation="Left">
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="Rates" Labels="{Binding Labels}"></lvc:Axis>
@@ -20,5 +29,6 @@
                 <lvc:Axis Title="Count" LabelFormatter="{Binding Formatter}"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
+        <TextBox HorizontalAlignment="Left" Height="33" Margin="297,0,0,0" TextWrapping="Wrap" Text="&#x9;Your Rates" VerticalAlignment="Top" Width="166"/>
     </Grid>
 </Window>

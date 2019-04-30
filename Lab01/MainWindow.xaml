@@ -5,11 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab01"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="850" Loaded="Window_Loaded_1">
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="MovieDatabase" Height="500" Width="850">
+
+
+
     <Window.Resources>
         <CollectionViewSource x:Key="tableViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Table}, CreateList=True}"/>
     </Window.Resources>
-    <Grid DataContext="{StaticResource tableViewSource}" RenderTransformOrigin="0.55,0.378" Margin="0,1,2,2">
+    <Grid DataContext="{StaticResource tableViewSource}" RenderTransformOrigin="0.55,0.378" Margin="2">
+        <Grid.Background>
+            <ImageBrush ImageSource="image/Background.png"/>
+        </Grid.Background>
         <Grid.RenderTransform>
             <TransformGroup>
                 <ScaleTransform/>
@@ -19,10 +32,10 @@
             </TransformGroup>
         </Grid.RenderTransform>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="327*"/>
-            <ColumnDefinition Width="274*"/>
-            <ColumnDefinition Width="134*"/>
-            <ColumnDefinition Width="105*"/>
+            <ColumnDefinition/>
+
+
+            <ColumnDefinition Width="Auto" MinWidth="475"/>
 
         </Grid.ColumnDefinitions>
         <Grid x:Name="grid1" DataContext="{StaticResource tableViewSource}" HorizontalAlignment="Left" Margin="11,10,0,0" VerticalAlignment="Top" Height="96" Width="245">
@@ -45,7 +58,7 @@
             <Label Content="Rating:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,34,0,-31" Grid.Row="2" VerticalAlignment="Center" Height="29" Width="86" RenderTransformOrigin="0.469,1.933"/>
             <TextBox x:Name="ratingTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="21" Margin="3,42,0,-31" Grid.Row="2" Text="{Binding Rating, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
         </Grid>
-        <ListView x:Name="tableListView" ItemsSource="{Binding}" Margin="0,230,0,0" SelectionMode="Single" SelectionChanged="TableListView_SelectionChanged">
+        <ListView x:Name="tableListView" ItemsSource="{Binding}" Margin="0,258,40,0" SelectionMode="Single" SelectionChanged="TableListView_SelectionChanged">
             <ListView.ItemContainerStyle>
                 <Style>
                     <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
@@ -54,7 +67,7 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn x:Name="date_of_productionColumn" Header="Date of production" Width="80">
+                    <GridViewColumn x:Name="date_of_productionColumn" Header="Date " Width="80">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <DatePicker Margin="6,-1,-6,-1" SelectedDate="{Binding Date_of_production, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
@@ -86,8 +99,8 @@
             </ListView.View>
         </ListView>
 
-        <Button x:Name="button" Content="Add movie" HorizontalAlignment="Left" Margin="0,165,0,0" VerticalAlignment="Top" Width="246" Click="Button_Click" Height="22"/>
-        <Button x:Name="button1" Content="Generate random movie" HorizontalAlignment="Left" Margin="0,193,0,0" VerticalAlignment="Top" Width="246"  Click="AddRandomMovie_Click" Height="24">
+        <Button x:Name="button" Content="Edit movie" HorizontalAlignment="Left" Margin="26,151,0,0" VerticalAlignment="Top" Width="246" Click="Button_Click" Height="22"/>
+        <Button x:Name="button1" Content="Generate random movie" HorizontalAlignment="Left" Margin="26,205,0,0" VerticalAlignment="Top" Width="246"  Click="AddRandomMovie_Click" Height="24">
 
             <Button.RenderTransform>
                 <TransformGroup>
@@ -98,14 +111,24 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button Content="Add" HorizontalAlignment="Right" Margin="0,190,33,0" VerticalAlignment="Top" Width="231" Height="18" Click="AddMovieToDatabase" Grid.Column="1"/>
+        <Button Content="Add" HorizontalAlignment="Right" Margin="0,220,192,0" VerticalAlignment="Top" Width="246" Height="22" Click="AddMovieToDatabase" Grid.Column="1"/>
 
-        <Label Content="Title:" Grid.Column="1" HorizontalAlignment="Left" Margin="0,92,0,349" VerticalAlignment="Center" Height="25" Width="68"/>
-        <TextBox x:Name="titleTextBox2" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="129,92,0,349"  VerticalAlignment="Center" Width="102" />
-        <Label Content="Rating:" Grid.Column="1" HorizontalAlignment="Left" Margin="0,141,0,293" VerticalAlignment="Center" Height="32" Width="68" />
-        <TextBox x:Name="ratingTextBox2" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="129,141,0,301"  VerticalAlignment="Center" Width="102"/>
-        <Label Content="Date of production:" Grid.Column="1" HorizontalAlignment="Left" Margin="0,35,0,404" Grid.Row="0" VerticalAlignment="Center" Height="27" Width="114"/>
-        <DatePicker x:Name="date_of_productionDatePicker2" Grid.Column="1" HorizontalAlignment="Left" Margin="129,39,0,403" Grid.Row="0"  VerticalAlignment="Center" Height="24" Width="102"/>
-        <Button Content="Chart" Grid.Column="1" HorizontalAlignment="Left" Margin="10,230,0,0" VerticalAlignment="Top" Width="240" Height="30" Click="ShowChartWindow_Click"/>
+
+
+
+
+        <Label Content="Title:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,148,0,292" VerticalAlignment="Center" Height="25" Width="124"/>
+        <TextBox x:Name="titleTextBox2" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="181,148,0,292"  VerticalAlignment="Center" Width="143" />
+        <Label Content="Rating:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,183,0,258" VerticalAlignment="Center" Height="24" Width="145" />
+        <TextBox x:Name="ratingTextBox2" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="181,183,0,258"  VerticalAlignment="Center" Width="143"/>
+        <Label Content="Date of production:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,116,0,322" Grid.Row="0" VerticalAlignment="Center" Height="27" Width="145"/>
+        <DatePicker x:Name="date_of_productionDatePicker2" Grid.Column="1" HorizontalAlignment="Left" Margin="181,114,0,327" Grid.Row="0"  VerticalAlignment="Center" Height="24" Width="143"/>
+        <Button Content="Chart" Grid.Column="1" HorizontalAlignment="Left" Margin="0,335,0,0" VerticalAlignment="Top" Width="189" Height="29" Click="ShowChartWindow_Click"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="197" Margin="11,258,0,0" VerticalAlignment="Top" Width="312"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="177" Margin="10,10,0,0" VerticalAlignment="Top" Width="284"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="208" VerticalAlignment="Top" Width="324" Margin="0,45,0,0" Grid.Column="1"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Add movie to database" VerticalAlignment="Top" Width="324" Margin="0,63,0,0"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="35" Margin="27,300,0,0" TextWrapping="Wrap" Text="Show your ratings chart" VerticalAlignment="Top" Width="162"/>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" HorizontalAlignment="Left" Height="95" Margin="0,285,0,0" VerticalAlignment="Top" Width="189"/>
     </Grid>
 </Window>
