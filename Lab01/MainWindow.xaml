@@ -88,6 +88,7 @@
 
         <Button x:Name="button" Content="Add movie" HorizontalAlignment="Left" Margin="0,165,0,0" VerticalAlignment="Top" Width="246" Click="Button_Click" Height="22"/>
         <Button x:Name="button1" Content="Generate random movie" HorizontalAlignment="Left" Margin="0,193,0,0" VerticalAlignment="Top" Width="246"  Click="AddRandomMovie_Click" Height="24">
+
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -105,5 +106,6 @@
         <TextBox x:Name="ratingTextBox2" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="129,141,0,301"  VerticalAlignment="Center" Width="102"/>
         <Label Content="Date of production:" Grid.Column="1" HorizontalAlignment="Left" Margin="0,35,0,404" Grid.Row="0" VerticalAlignment="Center" Height="27" Width="114"/>
         <DatePicker x:Name="date_of_productionDatePicker2" Grid.Column="1" HorizontalAlignment="Left" Margin="129,39,0,403" Grid.Row="0"  VerticalAlignment="Center" Height="24" Width="102"/>
+        <Button Content="Chart" Grid.Column="1" HorizontalAlignment="Left" Margin="10,230,0,0" VerticalAlignment="Top" Width="240" Height="30" Click="ShowChartWindow_Click"/>
     </Grid>
 </Window>

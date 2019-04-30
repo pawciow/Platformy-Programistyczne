@@ -138,6 +138,12 @@ namespace Lab01
                 MessageBox.Show("Something went wrong...", ex.Message);
             }
         }
+        private void ShowChartWindow_Click(object sender, RoutedEventArgs e)
+        {
+            ChartWindow chartWindow = new ChartWindow();
+            chartWindow.Show();
+        }
+
     }
 
  
