@@ -138,9 +138,24 @@ namespace Lab01
                 MessageBox.Show("Something went wrong...", ex.Message);
             }
         }
+
+        private void getRatesList(List<float> rates)
+        {
+            var query = from tmp in context.Table
+                        select tmp;
+            foreach (var a in query)
+            {
+                Console.WriteLine("ID: {0}, Title = {1}, Rating = {2}", a.Id, a.Title, a.Rating);
+                rates.Add(a.Rating);
+            }
+            rates.Sort();
+
+        }
         private void ShowChartWindow_Click(object sender, RoutedEventArgs e)
         {
-            ChartWindow chartWindow = new ChartWindow();
+            List<float> rates = new List<float> { };
+            getRatesList(rates);
+            ChartWindow chartWindow = new ChartWindow(rates);
             chartWindow.Show();
         }
 

@@ -16,19 +16,15 @@ namespace Lab01
 
         Database1Entities context = new Database1Entities();
 
-        public ChartWindow()
+        public ChartWindow(List<float> rates)
         {
             InitializeComponent();
-            ChartInitialize();
+            ChartInitialize(rates);
             DataContext = this;
         }
 
-        public void ChartInitialize()
+        public void ChartInitialize(List<float> rates)
         {
-            var rates = context.Table
-                .GroupBy(element => element.Rating)
-                .Select(x => new { Rating = x.Key, Count = x.Distinct().Count() });
-
             var LabelsList = new List<string>();
 
             SeriesCollection = new SeriesCollection();
@@ -36,15 +32,15 @@ namespace Lab01
             ColumnSeries = new ColumnSeries
             {
                 Title = "Rating",
-                Values = new ChartValues<int>()
+                Values = new ChartValues<float>()
             };
 
             Formatter = value => value.ToString("N");
 
             foreach (var x in rates)
             {
-                ColumnSeries.Values.Add(x.Count);
-                LabelsList.Add(x.Rating.ToString());
+                ColumnSeries.Values.Add(x);
+                LabelsList.Add(x.ToString());
             }
 
             SeriesCollection.Add(ColumnSeries);
