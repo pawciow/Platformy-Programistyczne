@@ -1,11 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.ImageObserver;
-
+import java.util.ArrayList;
 public class Item {
 
-    private int _x;
-    private int _y;
+    public int _x;
+    public int _y;
     private Image apple;
 
     public Item(int x, int y, String imageFileName)

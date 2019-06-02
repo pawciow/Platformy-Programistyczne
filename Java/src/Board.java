@@ -3,29 +3,24 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.util.ArrayList;
 
 public class Board extends JPanel implements ActionListener {
 
     private final int B_WIDTH = 300;
     private final int B_HEIGHT = 300;
     private final int DOT_SIZE = 10;
-    private final int ALL_DOTS = 900;
     private final int RAND_POS = 29;
     private final int DELAY = 140;
 
-    private final int x[] = new int[ALL_DOTS];
-    private final int y[] = new int[ALL_DOTS];
 
-    private int dots;
 
     private boolean leftDirection = false;
     private boolean rightDirection = true;
@@ -34,9 +29,7 @@ public class Board extends JPanel implements ActionListener {
     private boolean isGameNotOver = true;
 
     private Timer timer;
-    private Image ball;
-    private Image head;
-
+    private ArrayList<Item> Snake;
     private Item apple;
     private Item obstacle;
     public Board() {
@@ -51,26 +44,18 @@ public class Board extends JPanel implements ActionListener {
         setFocusable(true);
 
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
-        loadImages();
         initGame();
-    }
-
-    private void loadImages() {
-
-        ImageIcon iid = new ImageIcon("resources/dot.png");
-        ball = iid.getImage();
-
-        ImageIcon iih = new ImageIcon("resources/head.png");
-        head = iih.getImage();
     }
 
     private void initGame() {
 
-        dots = 3;
+        Snake = new ArrayList<>();
+        Snake.add(new Item(50, 50, "resources/head.png"));
 
-        for (int z = 0; z < dots; z++) {
-            x[z] = 50 - z * 10;
-            y[z] = 50;
+        for (int z = 0; z < 3; z++) {
+            int x = 50 - z * 10;
+            int y = 50;
+            Snake.add(new Item(x, y,"resources/dot.png" ));
         }
         
         locateApple();
@@ -91,12 +76,9 @@ public class Board extends JPanel implements ActionListener {
         if (isGameNotOver) {
 
             apple.draw(g, this);
-            for (int z = 0; z < dots; z++) {
-                if (z == 0) {
-                    g.drawImage(head, x[z], y[z], this);
-                } else {
-                    g.drawImage(ball, x[z], y[z], this);
-                }
+            for(Item i : Snake)
+            {
+                i.draw(g, this);
             }
             if(obstacle != null)
                 obstacle.draw(g, this);
@@ -122,66 +104,79 @@ public class Board extends JPanel implements ActionListener {
 
     private void checkApple() {
 
-        if(apple.checkCollision(x[0], y[0])) {
+        Item head = Snake.get(0);
+        Item endOfSnake = Snake.get(Snake.size()-1);
+        if(apple.checkCollision(head._x, head._y)) {
 
-            dots++;
             locateApple();
+            Snake.add(new Item(endOfSnake._x-10,endOfSnake._y,"resources/dot.png"));
         }
     }
 
     private void move() {
 
-        for (int z = dots; z > 0; z--) {
-            x[z] = x[(z - 1)];
-            y[z] = y[(z - 1)];
+
+
+
+        for(int i = Snake.size()-1; i > 0; i--)
+        {
+            Item head = Snake.get(i-1);
+            Item last = Snake.get(i);
+            last._x = head._x;
+            last._y = head._y;
         }
 
+
+
         if (leftDirection) {
-            x[0] -= DOT_SIZE;
+            Snake.get(0)._x -= DOT_SIZE;
         }
 
         if (rightDirection) {
-            x[0] += DOT_SIZE;
+            Snake.get(0)._x += DOT_SIZE;
         }
 
         if (upDirection) {
-            y[0] -= DOT_SIZE;
+            Snake.get(0)._y -= DOT_SIZE;
         }
 
         if (downDirection) {
-            y[0] += DOT_SIZE;
+            Snake.get(0)._y += DOT_SIZE;
         }
     }
 
     private void checkCollision() {
 
-        for (int z = dots; z > 0; z--) {
+        Item head = Snake.get(0);
+//        for (int z = Snake.size()-1; z > 0; z--) {
+//            Item checking = Snake.get(z);
+//
+//            if ((head._x == checking._x) && (head._y == checking._y)) {
+//                isGameNotOver = false;
+//            }
+//        }
 
-            if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
-                isGameNotOver = false;
-            }
-        }
 
         if (obstacle != null)
         {
-            if(obstacle.checkCollision(x[0],y[0])){
+            if(obstacle.checkCollision(head._x,head._y)){
                 isGameNotOver = false;
             }
         }
 
-        if (y[0] >= B_HEIGHT) {
+        if (head._y >= B_HEIGHT) {
             isGameNotOver = false;
         }
 
-        if (y[0] < 0) {
+        if (head._y < 0) {
             isGameNotOver = false;
         }
 
-        if (x[0] >= B_WIDTH) {
+        if (head._x >= B_WIDTH) {
             isGameNotOver = false;
         }
 
-        if (x[0] < 0) {
+        if (head._x < 0) {
             isGameNotOver = false;
         }
         

@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.*;
 
+
 public class Snake extends JFrame implements ActionListener
 {
     private JMenu menu, submenu;
