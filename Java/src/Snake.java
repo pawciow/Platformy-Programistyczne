@@ -33,7 +33,7 @@ public class Snake extends JFrame implements ActionListener
         submenu=new JMenu("Sub Menu");
         i1=new JMenuItem("New game");
         i1.addActionListener(this);
-        i2=new JMenuItem("Save");
+        i2=new JMenuItem("Add obstacles");
         i2.addActionListener(this);
         i3=new JMenuItem("Load");
 //        i4=new JMenuItem("Item 4");
@@ -53,18 +53,24 @@ public class Snake extends JFrame implements ActionListener
         if(e.getSource() == i1)
         {
             System.out.println("Numer 1");
+            this.setVisible(false);
             Snake snake = new Snake();
             snake.setVisible(true);
         }
 
-        if(e.getSource() == i2)
+        if(e.getSource() == i2){
+
             System.out.println("Numer 2");
+            // TUTAJ
+        }
+
     }
 
     public static void main(String[] args) {
         
         EventQueue.invokeLater(() -> {
             JFrame ex = new Snake();
+
 
             ex.setVisible(true);
         });

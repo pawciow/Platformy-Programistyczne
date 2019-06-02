@@ -160,9 +160,9 @@ public class Board extends JPanel implements ActionListener {
             }
         }
 
-        if(obstacle.checkCollision(x[0],y[0])){
-            isGameNotOver = false;
-        }
+//        if(obstacle.checkCollision(x[0],y[0])){
+//            isGameNotOver = false;
+//        }
 
         if (y[0] >= B_HEIGHT) {
             isGameNotOver = false;
@@ -183,6 +183,12 @@ public class Board extends JPanel implements ActionListener {
         if (!isGameNotOver) {
             timer.stop();
         }
+    }
+    public void addObstacle()
+    {
+        int r_x = (int) (Math.random() * RAND_POS);
+        int r_y = (int) (Math.random() * RAND_POS);
+        obstacle = new Item((r_x * DOT_SIZE), (r_y * DOT_SIZE), "resources/obstacle.png");
     }
 
     private void locateApple() {
