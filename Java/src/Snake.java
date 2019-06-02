@@ -8,7 +8,6 @@ public class Snake extends JFrame implements ActionListener
 {
     JMenu menu, submenu;
     JMenuItem i1, i2, i3, i4, i5;
-//    JButton i1;
     JMenuBar mb=new JMenuBar();
 
     public Snake() {

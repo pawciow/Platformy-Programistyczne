@@ -26,20 +26,19 @@ public class Board extends JPanel implements ActionListener {
     private final int y[] = new int[ALL_DOTS];
 
     private int dots;
-    private int apple_x;
-    private int apple_y;
 
     private boolean leftDirection = false;
     private boolean rightDirection = true;
     private boolean upDirection = false;
     private boolean downDirection = false;
-    private boolean inGame = true;
+    private boolean isGameNotOver = true;
 
     private Timer timer;
     private Image ball;
-    private Image apple;
     private Image head;
 
+    Item apple;
+    Item obstacle;
     public Board() {
         
         initBoard();
@@ -60,9 +59,6 @@ public class Board extends JPanel implements ActionListener {
 
         ImageIcon iid = new ImageIcon("resources/dot.png");
         ball = iid.getImage();
-
-        ImageIcon iia = new ImageIcon("resources/apple.png");
-        apple = iia.getImage();
 
         ImageIcon iih = new ImageIcon("resources/head.png");
         head = iih.getImage();
@@ -92,10 +88,9 @@ public class Board extends JPanel implements ActionListener {
     
     private void doDrawing(Graphics g) {
         
-        if (inGame) {
+        if (isGameNotOver) {
 
-            g.drawImage(apple, apple_x, apple_y, this);
-
+            apple.draw(g, this);
             for (int z = 0; z < dots; z++) {
                 if (z == 0) {
                     g.drawImage(head, x[z], y[z], this);
@@ -125,7 +120,7 @@ public class Board extends JPanel implements ActionListener {
 
     private void checkApple() {
 
-        if ((x[0] == apple_x) && (y[0] == apple_y)) {
+        if(apple.checkCollision(x[0], y[0])) {
 
             dots++;
             locateApple();
@@ -161,44 +156,46 @@ public class Board extends JPanel implements ActionListener {
         for (int z = dots; z > 0; z--) {
 
             if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
-                inGame = false;
+                isGameNotOver = false;
             }
         }
 
+        if(obstacle.checkCollision(x[0],y[0])){
+            isGameNotOver = false;
+        }
+
         if (y[0] >= B_HEIGHT) {
-            inGame = false;
+            isGameNotOver = false;
         }
 
         if (y[0] < 0) {
-            inGame = false;
+            isGameNotOver = false;
         }
 
         if (x[0] >= B_WIDTH) {
-            inGame = false;
+            isGameNotOver = false;
         }
 
         if (x[0] < 0) {
-            inGame = false;
+            isGameNotOver = false;
         }
         
-        if (!inGame) {
+        if (!isGameNotOver) {
             timer.stop();
         }
     }
 
     private void locateApple() {
 
-        int r = (int) (Math.random() * RAND_POS);
-        apple_x = ((r * DOT_SIZE));
-
-        r = (int) (Math.random() * RAND_POS);
-        apple_y = ((r * DOT_SIZE));
+        int r_x = (int) (Math.random() * RAND_POS);
+        int r_y = (int) (Math.random() * RAND_POS);
+        apple = new Item((r_x * DOT_SIZE), (r_y * DOT_SIZE), "resources/apple.png");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (inGame) {
+        if (isGameNotOver) {
 
             checkApple();
             checkCollision();
@@ -246,3 +243,4 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 }
+
