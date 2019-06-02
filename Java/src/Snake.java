@@ -6,9 +6,10 @@ import javax.swing.*;
 
 public class Snake extends JFrame implements ActionListener
 {
-    JMenu menu, submenu;
-    JMenuItem i1, i2, i3, i4, i5;
-    JMenuBar mb=new JMenuBar();
+    private JMenu menu, submenu;
+    private JMenuItem i1, i2, i3, i4, i5;
+    private JMenuBar mb=new JMenuBar();
+    private Board board;
 
     public Snake() {
         
@@ -17,8 +18,9 @@ public class Snake extends JFrame implements ActionListener
     }
     
     private void initUI() {
-        
-        add(new Board());
+
+        board = new Board();
+        add(board);
 
         setResizable(false);
         pack();
@@ -36,10 +38,8 @@ public class Snake extends JFrame implements ActionListener
         i2=new JMenuItem("Add obstacles");
         i2.addActionListener(this);
         i3=new JMenuItem("Load");
-//        i4=new JMenuItem("Item 4");
-//        i5=new JMenuItem("Item 5");
+
         menu.add(i1); menu.add(i2); menu.add(i3);
-//        submenu.add(i4); submenu.add(i5);
         menu.add(submenu);
         mb.add(menu);
         setJMenuBar(mb);
@@ -61,7 +61,7 @@ public class Snake extends JFrame implements ActionListener
         if(e.getSource() == i2){
 
             System.out.println("Numer 2");
-            // TUTAJ
+            board.addObstacle();
         }
 
     }

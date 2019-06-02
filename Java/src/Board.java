@@ -37,8 +37,8 @@ public class Board extends JPanel implements ActionListener {
     private Image ball;
     private Image head;
 
-    Item apple;
-    Item obstacle;
+    private Item apple;
+    private Item obstacle;
     public Board() {
         
         initBoard();
@@ -98,6 +98,8 @@ public class Board extends JPanel implements ActionListener {
                     g.drawImage(ball, x[z], y[z], this);
                 }
             }
+            if(obstacle != null)
+                obstacle.draw(g, this);
 
             Toolkit.getDefaultToolkit().sync();
 
@@ -160,9 +162,12 @@ public class Board extends JPanel implements ActionListener {
             }
         }
 
-//        if(obstacle.checkCollision(x[0],y[0])){
-//            isGameNotOver = false;
-//        }
+        if (obstacle != null)
+        {
+            if(obstacle.checkCollision(x[0],y[0])){
+                isGameNotOver = false;
+            }
+        }
 
         if (y[0] >= B_HEIGHT) {
             isGameNotOver = false;
