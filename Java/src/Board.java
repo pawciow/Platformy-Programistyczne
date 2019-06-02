@@ -20,13 +20,12 @@ public class Board extends JPanel implements ActionListener {
     private final int RAND_POS = 29;
     private final int DELAY = 140;
 
-
-
     private boolean leftDirection = false;
     private boolean rightDirection = true;
     private boolean upDirection = false;
     private boolean downDirection = false;
     private boolean isGameNotOver = true;
+    private boolean pauseGame = false;
 
     private Timer timer;
     private ArrayList<Item> Snake;
@@ -114,9 +113,8 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void move() {
-
-
-
+        if(pauseGame)
+            return;
 
         for(int i = Snake.size()-1; i > 0; i--)
         {
@@ -125,7 +123,6 @@ public class Board extends JPanel implements ActionListener {
             last._x = head._x;
             last._y = head._y;
         }
-
 
 
         if (leftDirection) {
@@ -148,13 +145,12 @@ public class Board extends JPanel implements ActionListener {
     private void checkCollision() {
 
         Item head = Snake.get(0);
-//        for (int z = Snake.size()-1; z > 0; z--) {
-//            Item checking = Snake.get(z);
-//
-//            if ((head._x == checking._x) && (head._y == checking._y)) {
-//                isGameNotOver = false;
-//            }
-//        }
+        for(int i = Snake.size()-1; i > 0; i--)
+        {
+            Item current = Snake.get(i);
+            if(current._x == head._x && current._y == head._y && Snake.size() > 4)
+                isGameNotOver = false;
+        }
 
 
         if (obstacle != null)
@@ -222,29 +218,34 @@ public class Board extends JPanel implements ActionListener {
                 leftDirection = true;
                 upDirection = false;
                 downDirection = false;
+                pauseGame = false;
             }
 
             if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
                 rightDirection = true;
                 upDirection = false;
                 downDirection = false;
+                pauseGame = false;
             }
 
             if ((key == KeyEvent.VK_UP) && (!downDirection)) {
                 upDirection = true;
                 rightDirection = false;
                 leftDirection = false;
+                pauseGame = false;
             }
 
             if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
                 downDirection = true;
                 rightDirection = false;
                 leftDirection = false;
+                pauseGame = false;
             }
             if (key == KeyEvent.VK_SPACE ) {
                 downDirection = false;
                 rightDirection = false;
                 leftDirection = false;
+                pauseGame = true;
             }
         }
     }
