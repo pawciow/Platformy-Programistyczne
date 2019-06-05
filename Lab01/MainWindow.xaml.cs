@@ -9,126 +9,114 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Data.Sql;
+using System.Data.Common;
+using System.Data;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Core.Objects.DataClasses;
+using System.Data.Entity.Core;
 namespace Lab01
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>d
-    /// 
+ 
 
     public partial class MainWindow : Window
     {
-        BitmapImage _Image = new BitmapImage { };
-
-        public const string imageName = "potato.jpg";
-        public const string url = "https://uinames.com/api/?ext";
-
-
-        ObservableCollection<Person> people = new ObservableCollection<Person>
-        {
-         //  new Person { Name = "P1", Age = 1, Picture = new BitmapImage(new Uri("C:\\Users\\Pawel\\Desktop\\dotNet\\Lab01\\Properties\\lena.bmp"))}, // Zmien sobie na jakis swoj obraz u siebie:P
-          //  new Person { Name = "P2", Age = 2, Picture =  new BitmapImage(new Uri("C:\\Users\\Pawel\\Desktop\\dotNet\\Lab01\\Properties\\lena.bmp"))}
-
-           new Person { Name = "P1", Age = 1, Picture = new BitmapImage(new Uri("C:\\Users\\kamil\\source\\repos\\Platformy-Programistyczne\\potato.jpg"))},
-           new Person { Name = "P2", Age = 2, Picture =  new BitmapImage(new Uri("C:\\Users\\kamil\\source\\repos\\Platformy-Programistyczne\\potato.jpg"))}
-        };
-
-        public ObservableCollection<Person> Items
-        {
-            get => people;
-        }
-
-
-
+        CollectionViewSource tableViewSource;
         public MainWindow()
         {
 
             InitializeComponent();
-
+            tableViewSource = ((CollectionViewSource)(FindResource("tableViewSource")));
             DataContext = this;
         }
 
-        private void AddNewPersonButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                people.Add(new Person { Age = int.Parse(ageTextBox.Text), Name = nameTextBox.Text, Picture = _Image });
 
-                // ageTextBox.Text = string.Empty;
-                //  nameTextBox.Text = string.Empty;
-            }
-            catch (System.FormatException)
-            {
-                Console.WriteLine("Nieprawidłowy format w tabelce wiek");
-            }
+        private void Window_Loaded_1(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Data.CollectionViewSource tableViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("tableViewSource")));
+            // Załaduj dane poprzez ustawienie właściwości CollectionViewSource.Source:
+            // tableViewSource.Źródło = [ogólne źródło danych]
+            //context.Table.Load();
+            tableViewSource.Source = context.Table.ToList();
+        }
+
+        private void AddFilmButton_Click(object sender, RoutedEventArgs e)
+        {
+            /*ADD_STH*/
+        }
+
+        private void TableListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
         }
 
-
-
-
-        void OnImageButtonClick(object sender, RoutedEventArgs e)
+        Database1Entities context = new Database1Entities();
+        async private void AddRandomMovie_Click(object sender, RoutedEventArgs e)
         {
-            var fileDialog = new OpenFileDialog();
-            fileDialog.DefaultExt = ".png";
-            fileDialog.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
-
-            if ((bool)fileDialog.ShowDialog())
+            RootObject random = await MovieConentGetter.GetApiAsync();
+            foreach(Result result in random.results)
             {
-                string fileName = fileDialog.FileName;
-
-                PictureBox.Source = new BitmapImage(new Uri(fileName));
-                _Image = new BitmapImage(new Uri(fileName));
-            }
-
-        }
-
-        private async void AddTextButton_Click(object sender, RoutedEventArgs e)
-        {
-            GetRandomPerson random = await GetApiAsync("https://uinames.com/api/?ext");
-        }
-
-        async Task<GetRandomPerson> GetApiAsync(string path)
-        {
-            GetRandomPerson random;
-            while (true)
-            {
-                using (HttpClient client = new HttpClient())
-                {
-
-                    using (HttpResponseMessage response = await client.GetAsync(path))
-                    {
-                        using (HttpContent content = response.Content)
-                        {
-                            var stringContent = await content.ReadAsStringAsync();
-                            random = JsonConvert.DeserializeObject<GetRandomPerson>(stringContent);
-
-
-                            try
-                            {
-                                people.Add(new Person { Age = random.age, Name = random.name, Picture = new BitmapImage(new Uri(random.photo)) });
-                            }
-                            catch (System.FormatException)
-                            {
-                                Console.WriteLine("Nieprawidłowe dane");
-                            }
-
-                        }
-
-                    }
-
-                }
-                Thread.Sleep(1000);
-
+                //string toShow = "Title : " + result.original_title + "\n" + "Ratings: " + result.vote_average + " \n Overview:" + result.overview;
+                //MessageBox.Show(toShow, "Random movie selected");
+                Movie movie = new Movie { Name = result.original_title, Rating = result.vote_average };
+                await AddMovieToDatabase(movie);
 
             }
 
-          
-
-
+            PrintAllContentToConsole();
         }
 
+        async private void DeleteMovie(Movie movie)
+        {
+            var query = (from tmp in context.Table
+                         where tmp.Title == movie.Name
+                         select tmp).Single();
+            Console.WriteLine("ID: {0}, Title = {1}, Rating = {2}", query.Id, query.Title, query.Rating);
+            context.Table.Remove(query);
+            await context.SaveChangesAsync();
+        }
+
+        private static int ID = 1;
+        private async Task AddMovieToDatabase(Movie movie)
+        {
+            await Task.Delay(2000);
+            var toAdd = new Lab01.Table { Id = ID, Title = movie.Name, Date_of_production = movie.Date_of_production, Rating = movie.Rating };
+            context.Table.Add(toAdd);
+            await context.SaveChangesAsync();
+            ID++;
+            tableViewSource.Source = context.Table.ToList();
+        }
+
+        async private void PrintAllContentToConsole()
+        {
+            /* Wyświetlanie wszystkiego */
+            await Task.Delay(2000);
+
+            var query = from tmp in context.Table select tmp;
+            foreach (var a in query)
+            {
+                Console.WriteLine("ID: {0}, Title = {1}, Rating = {2}", a.Id, a.Title, a.Rating);
+            }
+            Console.WriteLine(query);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            context.SaveChanges();
+        }
     }
+
+ 
 
 }
